@@ -6,6 +6,7 @@ in vec2 texCoord0;
 
 uniform float uv_time;
 
+uniform vec3 mixColor;
 
 #ifdef UV_DIFFUSE_TEXTURE
 uniform sampler2D uv_diffuseTexture;
@@ -230,6 +231,6 @@ void main(void)
 #endif
 
     FragColor = finalColor;
-    FragColor = vec4(1);
+    FragColor = vec4(mixColor, 1);
 
 }
