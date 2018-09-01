@@ -1,7 +1,7 @@
 
 out vec4 FragColor; 
 
-in vec3 lightDir, normal, eyeVec;
+in vec3 LightDir, Normal, EyeVec;
 in vec2 texCoord0;
 
 uniform float uv_time;
@@ -163,10 +163,10 @@ void main(void)
     vec3 bump = normalize(texture2D(uv_normalTexture,texCoord0.st).rgb * 2.0 - 1.0);
     vec3 N = bump;
 #else
-    vec3 N = normalize(normal);
+    vec3 N = normalize(Normal);
 #endif
 
-    vec3 L = normalize(lightDir);
+    vec3 L = normalize(LightDir);
 
 #ifdef UV_SHADOWS
     float shadow = 1.0 - eval_shadow();
@@ -189,8 +189,8 @@ void main(void)
         finalDiffuseColor *= lambertTerm;
 
 #ifdef UV_SPECULAR_MATERIAL
-        vec3 E = normalize(eyeVec);
-        vec3 R = reflect(-E,N);
+        vec3 E = normalize(EyeVec);
+        vec3 R = reflect(-L,N);
         specular = pow( max(dot(R,E), 0.0) , uv_shininessMtrl );
 
 
@@ -219,7 +219,7 @@ void main(void)
 #endif
 
 #ifdef UV_REFLECTION_TEXTURE
-    finalColor = uv_reflectionTexStrength * applyOperation(finalColor,texture2D(uv_reflectionTexture,SphereMap(-eyeVec,N)),uv_reflectionTexOp);
+    finalColor = uv_reflectionTexStrength * applyOperation(finalColor,texture2D(uv_reflectionTexture,SphereMap(-EyeVec,N)),uv_reflectionTexOp);
 #endif
 
 
