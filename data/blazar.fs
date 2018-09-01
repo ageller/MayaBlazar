@@ -231,6 +231,6 @@ void main(void)
 #endif
 
     FragColor = finalColor;
-    FragColor = vec4(mixColor, 1);
+    //FragColor = vec4(L, 1);
 
 }

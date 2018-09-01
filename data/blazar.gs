@@ -25,24 +25,19 @@ uniform float uv_fade;
 
 void main()
 {
-	// float ave_z=0;
-	// float top=rainRange.y;
-	// float bottom =rainRange.x;
-	// for (int i=0;i<3;i++) {
-	// 	ave_z+=(uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position)).z;
-	// }
-	// ave_z/=3;
- //    float shift = (bottom-top)*fract(0.3*uv_simulationtimeSeconds);
-	// if (ave_z+shift < bottom) {
-	// 	shift += (top-bottom);
-	// }
+
 	for (int i=0;i<3;i++) {
-		LightDir=lightDir[i];
+		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
+		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
+
+		//LightDir=lightDir[i];
+		//try a point light emanating from the center
+		vec3 L = vec3(0,1,0);//gl_in[i].gl_Position.xyz;
+		LightDir = normalize(-1*L);
+		//LightDir = (uv_modelViewProjectionInverseMatrix*(vec4(0))).xyz;//-1.*normalize(gl_in[i].gl_Position.xyz);
+
 		Normal=normal[i];
 		EyeVec=eyeVec[i];
-		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
-		// vertexPos.z+=shift;
-		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
 		EmitVertex();
 	}
 	EndPrimitive();
