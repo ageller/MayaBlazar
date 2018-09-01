@@ -40,9 +40,9 @@ void main()
 		LightDir=lightDir[i];
 		Normal=normal[i];
 		EyeVec=eyeVec[i];
-		// vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
+		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
 		// vertexPos.z+=shift;
-		// gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
+		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
 		EmitVertex();
 	}
 	EndPrimitive();
