@@ -8,3 +8,11 @@
 ehthumbs.db
 Thumbs.db
 
+
+# python #
+###################
+*ipynb_checkpoints*
+__pycache__
+*.pyc
+
+
