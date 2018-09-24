@@ -1,4 +1,4 @@
-out vec3 lightDir, normal, eyeVec;
+out vec3 lightDir1, lightDir2, normal, eyeVec;
 out vec2 texCoord0;
 
 in vec3 uv_vertexAttrib;
@@ -25,8 +25,12 @@ void main(void)
 	vec3 vVertex = vec3(uv_object2SceneMatrix* vec4(uv_vertexAttrib,1.0));
 	vec3 tmpVec = normalize( (uv_object2SceneMatrix* uv_lightPos).xyz );
 
-	//lightDir = tmpVec;
-	lightDir = -1.*vVertex.xyz;
+	//point light at center
+	lightDir1 = -1.*vVertex.xyz;
+
+	//some diffuse lighting from the opposite direction
+	lightDir2 = vVertex.xyz;
+
 	eyeVec = uv_cameraPos.xyz-vVertex;
 
 	texCoord0.s  = uv_texCoordAttrib0.s;

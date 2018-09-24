@@ -1,9 +1,11 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices=3) out;
-in vec3 lightDir[];
+in vec3 lightDir1[];
+in vec3 lightDir2[];
 in vec3 normal[];
 in vec3 eyeVec[];
-out vec3 LightDir;
+out vec3 LightDir1;
+out vec3 LightDir2;
 out vec3 Normal;
 out vec3 EyeVec;
 
@@ -30,14 +32,11 @@ void main()
 		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
 		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
 
-		LightDir=lightDir[i];
-		//try a point light emanating from the center
-		//vec3 L = vec3(0,1,0);//gl_in[i].gl_Position.xyz;
-		//LightDir = normalize(-1*L);
-		//LightDir = (uv_modelViewProjectionInverseMatrix*(vec4(0))).xyz;//-1.*normalize(gl_in[i].gl_Position.xyz);
+		LightDir1 = lightDir1[i];
+		LightDir2 = lightDir2[i];
 
-		Normal=normal[i];
-		EyeVec=eyeVec[i];
+		Normal = normal[i];
+		EyeVec = eyeVec[i];
 		EmitVertex();
 	}
 	EndPrimitive();
