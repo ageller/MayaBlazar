@@ -9,6 +9,7 @@ out vec3 LightDir2;
 out vec3 Normal;
 out vec3 EyeVec;
 
+
 uniform mat4 uv_modelViewProjectionMatrix;
 uniform mat4 uv_modelViewProjectionInverseMatrix;
 uniform mat4 uv_modelViewMatrix;
@@ -21,12 +22,13 @@ uniform mat4 uv_scene2ObjectMatrix;
 uniform int uv_simulationtimeDays;
 uniform float uv_simulationtimeSeconds;
 uniform float uv_fade;
-//uniform vec2 rainRange;
 
-
-
+out vec4 vPos;
 void main()
 {
+
+	//take first position to get distance (wanted average of triangle, but couldn't make that work for some reason), and normalized by eye
+	vPos =  uv_modelViewProjectionInverseMatrix*(gl_in[0].gl_Position);
 
 	for (int i=0;i<3;i++) {
 		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
@@ -39,5 +41,9 @@ void main()
 		EyeVec = eyeVec[i];
 		EmitVertex();
 	}
+
+
 	EndPrimitive();
+
+
 }
