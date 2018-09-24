@@ -30,10 +30,10 @@ void main()
 		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
 		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
 
-		//LightDir=lightDir[i];
+		LightDir=lightDir[i];
 		//try a point light emanating from the center
-		vec3 L = vec3(0,1,0);//gl_in[i].gl_Position.xyz;
-		LightDir = normalize(-1*L);
+		//vec3 L = vec3(0,1,0);//gl_in[i].gl_Position.xyz;
+		//LightDir = normalize(-1*L);
 		//LightDir = (uv_modelViewProjectionInverseMatrix*(vec4(0))).xyz;//-1.*normalize(gl_in[i].gl_Position.xyz);
 
 		Normal=normal[i];
