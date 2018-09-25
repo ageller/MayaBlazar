@@ -5,6 +5,7 @@ in vec3 LightDir1, LightDir2, Normal, EyeVec;
 in vec2 texCoord0;
 
 in vec4 vPos;
+in vec2 texcoord;
 
 uniform float uv_time;
 uniform int uv_simulationtimeDays;
@@ -22,14 +23,13 @@ const float PI = 3.141592653589793;
 
 void main(void)
 {
-	float dist = length(vPos.xz)/10.; 
-
-
-	vec3 cm = texture(cmap ,vec2(clamp(dist,0.,1),0.5)).rgb;
+	//float dist = length(vPos.xz)/10.; 
+	float dist = length(texcoord)/10.; 
+	vec3 cm = texture(cmap ,vec2(clamp(dist*0.9 + 0.1,0.,1),0.5)).rgb - vec3(0.5);
 
 	vec4 finalDiffuseColor1 = vec4(0.0);
 	vec4 finalDiffuseColor2 = vec4(0.0);
-	vec4 finalAmbientColor  = vec4(cm,1.0)*0.5;
+	vec4 finalAmbientColor  = vec4(cm,1.0);
 	vec4 finalSpecularColor = vec4(0.0);
 	vec4 finalColor;
 
@@ -64,18 +64,31 @@ void main(void)
 	FragColor = finalColor;
 
 	//attempt to simulate keplerian motion
+	//first create some rings
+	float dfac = 0.05; //controls the spacing of the rings
+	float afac = 1.; //controls the width of the cutout within each ring
+	float lim = mod(dist, dfac);
+	if (lim > dfac/2. && lim < dfac/1.4){
+		FragColor = vec4(0,0,0,1);
+	}
+	float newdist = round(dist/dfac)*dfac*10.;
 	
 	//define the time 
-	//THIS IS NOT WORKING VERY WELL HERE BECAUE OF LIMITTED VERTICES.  I SHOULD PROBABLY CREATE A FLAT BILLBOARD AND DRAW ON TOP OF THIS WITH THE KEPLERIAN MOTION
 	float dayfract = uv_simulationtimeSeconds/(24.0*3600.0);
 	float days = uv_simulationtimeDays + dayfract;
 	float years = 1970. + days/365.2425;
 
-	float angle = atan(vPos.z, vPos.x) + PI;
-	float amin = mod(days/pow(dist*10., 2./3.), 2.*PI) ;
-	float amax = amin + 0.2;
-	if (angle >= amin && angle <= amax){
-		FragColor = vec4(0,0,0,1);
+	float semi = pow(newdist, 2./3.);
+	float angle = atan(texcoord.y, texcoord.x) + PI;
+	float amin = mod(days/semi, 2.*PI);
+	float amax = mod(amin + afac/semi, 2.*PI);
+	float adiff = clamp(1. - (angle - amin)/(afac/semi), 0., 1.);
+	//need to fix portion near angle of zero
+	if (amax < amin && angle <= amax){
+		adiff = clamp(1. - (angle - amin + 2.*PI)/(afac/semi), 0., 1.);	
+	}
+	if ((angle >= amin && angle <= amax) || (amax < amin) ){
+		FragColor.rgb *= adiff;
 	}
 
 }
