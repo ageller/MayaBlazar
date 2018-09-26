@@ -86,10 +86,10 @@ void main(void)
 
 
 	//add some noisy motion along the jet y direction
-	float t = days*1. - texcoord.y;
+	float t = days*1. - abs(texcoord.y);
 	float tn = noise(vec3(1.,1., t), 1, 3., 0.7, 0)/2.;
 
-	float dist = texcoord.y/25. - tn;
+	float dist = abs(texcoord.y)/25. - tn;
 	
 	FragColor.a *= clamp(1. - dist, 0, 1);
 
