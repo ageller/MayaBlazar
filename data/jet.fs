@@ -15,6 +15,7 @@ uniform vec3 uv_emissiveMtrl;
 
 uniform float uv_opacityMtrl;
 
+uniform float jetAlpha;
 
 const float PI = 3.141592653589793;
 
@@ -87,11 +88,12 @@ void main(void)
 
 	//add some noisy motion along the jet y direction
 	float t = days*1. - abs(texcoord.y);
-	float tn = noise(vec3(1.,1., t), 1, 3., 0.7, 0)/2.;
+	float tn = noise(vec3(1.,1., t), 2, 3., 0.7, 0)/4.;
 
-	float dist = abs(texcoord.y)/25. - tn;
+	float dist = abs(texcoord.y)/80. - tn;
 	
-	FragColor.a *= clamp(1. - dist, 0, 1);
+	FragColor.a *= clamp(1. - dist, 0, 1.);
+	FragColor.a *= jetAlpha;
 
 	
 
