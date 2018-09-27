@@ -25,7 +25,7 @@ void main(void)
 {
 	//float dist = length(vPos.xz)/10.; 
 	float dist = length(texcoord)/12.; 
-	vec3 cm = texture(cmap ,vec2(clamp(dist*0.9 + 0.2,0.,1),0.5)).rgb - vec3(0.5);
+	vec3 cm = texture(cmap ,vec2(clamp(dist*1.1 - 0.1,0.,1),0.5)).rgb - vec3(0.5);
 
 	vec4 finalDiffuseColor1 = vec4(0.0);
 	vec4 finalDiffuseColor2 = vec4(0.0);
