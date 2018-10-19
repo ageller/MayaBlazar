@@ -23,19 +23,15 @@ uniform int uv_simulationtimeDays;
 uniform float uv_simulationtimeSeconds;
 uniform float uv_fade;
 
-out vec4 vPos;
 out vec2 texcoord;
 
 void main()
 {
 
-	//take first position to get distance (wanted average of triangle, but couldn't make that work for some reason), and normalized by eye
-	vPos =  uv_modelViewProjectionInverseMatrix*(gl_in[0].gl_Position);
 
 	for (int i=0;i<3;i++) {
-		vec4 vertexPos = uv_modelViewProjectionInverseMatrix*(gl_in[i].gl_Position);
-		gl_Position =  uv_modelViewProjectionMatrix *vertexPos;
-		texcoord = vertexPos.xy;
+		gl_Position =  uv_modelViewProjectionMatrix *gl_in[i].gl_Position;
+		texcoord = gl_in[i].gl_Position.xy;
 		
 		LightDir1 = lightDir1[i];
 		LightDir2 = lightDir2[i];

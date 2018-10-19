@@ -19,8 +19,7 @@ void main(void)
 	mat4 normalMatrix = transpose( uv_scene2ObjectMatrix );
 	
 	normal = (normalMatrix * vec4(uv_normalAttrib,0.0)).xyz;
-	vec4 vertex = uv_modelViewProjectionMatrix* vec4(uv_vertexAttrib ,1.0);
-	gl_Position = vertex;
+	gl_Position = vec4(uv_vertexAttrib ,1.0);;
 
 	vec3 vVertex = vec3(uv_object2SceneMatrix* vec4(uv_vertexAttrib,1.0));
 	vec3 tmpVec = normalize( (uv_object2SceneMatrix* uv_lightPos).xyz );

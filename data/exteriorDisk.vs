@@ -121,8 +121,7 @@ void main(void)
 	//rVertex += normal.xyz*n*700.;
 	
 	//vec4 vertex = uv_modelViewProjectionMatrix* vec4(uv_vertexAttrib ,1.0);	
-	vec4 vertex = uv_modelViewProjectionMatrix* vec4(rVertex ,1.0);	
-	gl_Position = vertex;
+	gl_Position = vec4(rVertex ,1.0);
 
 	vec3 vVertex = vec3(uv_object2SceneMatrix* vec4(uv_vertexAttrib,1.0));
 	vec3 tmpVec = normalize( (uv_object2SceneMatrix* uv_lightPos).xyz );
